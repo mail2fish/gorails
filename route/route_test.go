@@ -110,7 +110,7 @@ func TestWrapConcurrent(t *testing.T) {
 	router.POST("/test", Wrap[*TestParams, *TestResponse](mockHandler))
 
 	// 创建多个并发请求
-	numRequests := 10
+	numRequests := 1000
 	wg := sync.WaitGroup{}
 	wg.Add(numRequests * 2) // 增加错误请求的测试
 

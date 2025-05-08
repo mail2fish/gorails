@@ -1,6 +1,7 @@
-package demo
+package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -32,7 +33,8 @@ func (r *Demo1Response) Render(c *gin.Context) {
 }
 
 func Demo1Handler(c *gin.Context, params route.Params) (route.Response, errors.Error) {
-	return &Demo1Response{Message: "Hello, World!"}, nil
+	p := params.(*Demo1Params)
+	return &Demo1Response{Message: fmt.Sprintf("ID is %d", p.ID)}, nil
 }
 
 type Demo2Params struct {
@@ -55,7 +57,8 @@ func (r *Demo2Response) Render(c *gin.Context) {
 }
 
 func Demo2Handler(c *gin.Context, params route.Params) (route.Response, errors.Error) {
-	return &Demo2Response{Message: "Hello, World!"}, nil
+	p := params.(*Demo2Params)
+	return &Demo2Response{Message: fmt.Sprintf("Name is %s", p.Name)}, nil
 }
 
 func DemoRoute() *gin.Engine {
@@ -63,4 +66,9 @@ func DemoRoute() *gin.Engine {
 	router.POST("/demo1", route.Wrap[*Demo1Params, *Demo1Response](Demo1Handler))
 	router.POST("/demo2", route.Wrap[*Demo2Params, *Demo2Response](Demo2Handler))
 	return router
+}
+
+func main() {
+	router := DemoRoute()
+	router.Run(":9090")
 }
