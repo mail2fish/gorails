@@ -8,7 +8,7 @@ import (
 )
 
 type Params interface {
-	Parse(*gin.Context) (Params, errors.Error)
+	Parse(*gin.Context) errors.Error
 }
 
 type Response interface {
@@ -16,6 +16,11 @@ type Response interface {
 }
 
 type GoRailsHandlerFun func(c *gin.Context, params Params) (Response, errors.Error)
+
+type ResponseImpl struct {
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
 
 // Wrap 将 GoRailsHandlerFun 转换为 gin.HandlerFunc
 func Wrap[T Params, R Response](handler GoRailsHandlerFun) gin.HandlerFunc {
@@ -28,14 +33,14 @@ func Wrap[T Params, R Response](handler GoRailsHandlerFun) gin.HandlerFunc {
 		params := reflect.New(t).Interface().(T)
 
 		// 解析参数
-		parsedParams, err := params.Parse(c)
+		err := params.Parse(c)
 		if err != nil {
 			err.Render(c)
 			return
 		}
 
 		// 调用处理函数
-		response, err := handler(c, parsedParams)
+		response, err := handler(c, params)
 
 		// 处理错误
 		if err != nil {

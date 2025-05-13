@@ -8,6 +8,7 @@ import (
 type Params = route.Params
 type Response = route.Response
 type GoRailsHandlerFun = route.GoRailsHandlerFun
+type EmptyParams = route.EmptyParams
 
 func Wrap[T route.Params, U route.Response](f GoRailsHandlerFun) gin.HandlerFunc {
 	return route.Wrap[T, U](f)

@@ -17,11 +17,11 @@ type Demo1Params struct {
 	ID int `json:"id"`
 }
 
-func (p *Demo1Params) Parse(c *gin.Context) (route.Params, errors.Error) {
+func (p *Demo1Params) Parse(c *gin.Context) errors.Error {
 	if err := c.ShouldBindJSON(p); err != nil {
-		return nil, errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_DEMO, 1, err.Error(), err)
+		return errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_DEMO, 1, err.Error(), err)
 	}
-	return p, nil
+	return nil
 }
 
 type Demo1Response struct {
@@ -41,11 +41,11 @@ type Demo2Params struct {
 	Name string `json:"name"`
 }
 
-func (p *Demo2Params) Parse(c *gin.Context) (route.Params, errors.Error) {
+func (p *Demo2Params) Parse(c *gin.Context) errors.Error {
 	if err := c.ShouldBindJSON(p); err != nil {
-		return nil, errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_DEMO, 1, err.Error(), err)
+		return errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_DEMO, 1, err.Error(), err)
 	}
-	return p, nil
+	return nil
 }
 
 type Demo2Response struct {

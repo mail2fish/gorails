@@ -23,11 +23,11 @@ type TestParams struct {
 	Name string `json:"name" binding:"required"`
 }
 
-func (p *TestParams) Parse(c *gin.Context) (Params, errors.Error) {
+func (p *TestParams) Parse(c *gin.Context) errors.Error {
 	if err := c.ShouldBindJSON(p); err != nil {
-		return nil, errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_TEST, 1, "无效的请求参数", err)
+		return errors.NewError(http.StatusBadRequest, errors.THIRD_PARTY, MODULE_TEST, 1, "无效的请求参数", err)
 	}
-	return p, nil
+	return nil
 }
 
 // 测试用的响应结构体
